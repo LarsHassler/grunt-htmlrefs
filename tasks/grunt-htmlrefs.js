@@ -13,6 +13,8 @@
 module.exports = function(grunt) {
 	var _ = grunt.util._;
 
+	var path = require('path');
+	
 	// start build pattern --> <!-- ref:[target] output -->
 	var regbuild = /<!--\s*ref:(\w+)\s*(.+)\s*-->/;
 
@@ -67,7 +69,10 @@ module.exports = function(grunt) {
 			});
 
 			// write the contents to destination
-			grunt.file.write(file.dest, content);
+      		var outputFile = grunt.file.isDir(file.dest) ?
+          		path.join(file.dest, path.basename(file)) :
+          		file.dest;
+			grunt.file.write(outputFile, content);
 
 		});
 	});
